@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Register
+{% endblock %}
+{% block content %}
+<h1 style="center">Register Here</h1>
+ <div class="forms">
+        <div class="form-content">
+          <div class="login-form">
+
+          <form action="register" method="post">
+            {% csrf_token %}
+            <div class="input-boxes">
+              <div class="input-box">
+                <i class="fas fa-envelope"></i>
+                <input type="text" placeholder="Enter your username" name="username" required>
+              </div>
+                <div class="input-box">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Enter your password" name="password" required>
+              </div>
+                <div class="input-box">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Confirm password" name="cpassword" required>
+              </div>
+              <div class="button input-box">
+                <input type="submit" value="Sumbit">
+              </div>
+        </form>
+            {% for msg in messages %}
+            {{msg}}
+            {% endfor %}
+      </div>
+
+    </div>
+    </div>
+
+{% endblock %}

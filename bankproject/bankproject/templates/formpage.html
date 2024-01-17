@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Form
+{% endblock %}
+{% block content %}
+<style>
+    /* Style to initially hide the form */
+    #myForm {
+      display: none;
+    }
+  </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<body>
+
+  <button onclick="toggleForm()">Show Form</button>
+
+  <form id="myForm" method="post">
+    <div class="container">
+    {% csrf_token %}
+    <!-- Your form fields go here -->
+    <table>
+    <tr>
+      <td>Name</td>
+    <td><input type="text" id="name" name="name" required></td>
+    </tr>
+      <tr>
+      <td>DOB</td>
+    <td><input type="date" id="dob" name="dob" required></td>
+    </tr>
+      <td>Age</td>
+    <td><input type="number" id="age" name="age" required></td>
+    </tr>
+      </tr>
+      <td>Gender</td>
+    <td><input type="radio" id="male" name="gender">Male<input type="radio" id="female" name="gender">Female</td>
+    </tr>
+      </tr>
+      <td>Phone Number</td>
+    <td><input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required></td>
+    </tr>
+      </tr>
+      <td>Email</td>
+    <td><input type="email" id="email" name="email" required></td>
+    </tr>
+      </tr>
+      <td>Address</td>
+    <td><input type="text" id="address" name="address" required></td>
+    </tr>
+      </tr>
+      <td>District</td>
+<!--      <td><select name="district" id="district" class="form-control">-->
+<!--            <option value="0">&#45;&#45;Select District&#45;&#45;</option>-->
+<!--            {% for item in district  %}-->
+<!--            <option value="{{ item.id }}">{{ item.name }}</option>-->
+<!--            {% endfor %}-->
+<!--        </select>-->
+<!--        </td>-->
+      <td>
+        <select name="district" id="district" onchange="populateBranches()">
+        <option value="">--Select District--</option>
+        <option value="tvm">Thiruvananthapuram</option>
+        <option value="klm">Kollam</option>
+        <option value="pta">Pathanamthitta</option>
+        <option value="alpy">Alappuzha</option>
+        <option value="ktm">Kottayam</option>
+      </select></td>
+    </tr>
+      </tr>
+      <td>Branch</td>
+    <td><select name="branch" id="branch" class="form-control">
+            <option value="">--Select Branch--</option>
+<!--            {% for item in branch  %}-->
+<!--            <option value="{{ item.district_id }}">{{ item.name }}</option>-->
+<!--            {% endfor %}-->
+        </select>
+    </td>
+    </tr>
+      <tr>
+      <td>Account Type</td>
+    <td><select name="actype" id="actype" class="form-control">
+            <option value="0">--Select Account Type--</option>
+            <option value="1">Current</option>
+            <option value="2">Savings</option>
+    </select></td>
+    </tr>
+      </tr>
+      <td>Materials</td>
+    <td><input type="checkbox" id="debit" name="material">Debit Card<input type="checkbox" id="credit" name="material">Credit<input type="checkbox" id="cheque" name="material">Cheque Book</td>
+    </tr>
+
+  <tr>
+    <td><input type="submit" value="Submit" name="submit"></td>
+
+      </tr>
+      </table>
+      </div>
+  </form>
+  <br>
+   {% for msg in messages %}
+            {{msg}}
+            {% endfor %}
+  <br>
+  <a href="{% url 'bankapp:home' %}">Return to home page</a>
+<script>
+  function populateBranches() {
+    var districtSelect = document.getElementById("district");
+    var branchSelect = document.getElementById("branch");
+
+    // Clear existing options
+    branchSelect.innerHTML = '<option value="">Select Branch</option>';
+
+    // Get selected district
+    var selectedDistrict = districtSelect.value;
+
+    // Add options based on the selected district
+    if (selectedDistrict === "tvm") {
+      var branches = ["Thiruvananthapuram", "Venjarammoodu", "Attingal"];
+    } else if (selectedDistrict === "klm") {
+      var branches = ["Kollam", "Kundara", "Kottarakkara"];
+    } else if (selectedDistrict === "pta") {
+      var branches = ["Pathanamthitta", "Ranni", "Thiruvalla"];
+    } else if (selectedDistrict === "alpy") {
+      var branches = ["Alappuzha", "Mavelikkara", "Cherthala"];
+    } else if (selectedDistrict === "ktm") {
+      var branches = ["Kottayam", "Ettumanoor", "Erattupetta"];
+    }
+
+    // Populate the branch dropdown
+    for (var i = 0; i < branches.length; i++) {
+      var option = document.createElement("option");
+      option.value = branches[i];
+      option.text = branches[i];
+      branchSelect.add(option);
+    }
+  }
+</script>
+  <script>
+    function toggleForm() {
+      var form = document.getElementById("myForm");
+      if (form.style.display === "none") {
+        form.style.display = "block";
+      } else {
+        form.style.display = "none";
+      }
+    }
+</script>
+
+
+
+{% endblock %}
